@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>A Moving Castle</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <section id="lock" class="screen" hidden>
+    <div class="lock-inner">
+      <div class="lock-calcifer" data-art="calcifer-sleep"></div>
+      <div class="zzz" aria-hidden="true"><span>z</span><span>z</span><span>z</span></div>
+      <h1>Shh… the castle is still asleep</h1>
+      <p>It wakes up on your birthday.</p>
+      <div class="countdown" role="timer" aria-live="off">
+        <div><span id="cd-d">0</span><small>days</small></div>
+        <div><span id="cd-h">00</span><small>hours</small></div>
+        <div><span id="cd-m">00</span><small>minutes</small></div>
+        <div><span id="cd-s">00</span><small>seconds</small></div>
+      </div>
+      <p class="lock-when" id="lock-when"></p>
+    </div>
+  </section>
+
+  <section id="home" class="screen" hidden>
+    <div class="sky">
+      <button class="sun" id="sun" aria-label="The sun"></button>
+      <div class="cloud c1"></div>
+      <div class="cloud c2"></div>
+      <div class="cloud c3"></div>
+    </div>
+    <div class="mountains"></div>
+    <div class="hills hills-back"></div>
+
+    <header class="home-title">
+      <h1>Happy Birthday<span id="name-slot"></span>!</h1>
+      <p>A castle has wandered by… knock and step inside.</p>
+    </header>
+
+    <button class="castle" id="castle" aria-label="Enter the moving castle">
+      <span data-art="castle"></span>
+      <span class="castle-hint" aria-hidden="true">click me!</span>
+    </button>
+
+    <div class="hills hills-front"></div>
+    <button class="pet-cat" data-cat="home" data-color="orange" style="left:6%; bottom:70px;" aria-label="A cat"></button>
+  </section>
+
+  <section id="blue" class="screen room room-blue" hidden>
+    <a href="#home" class="back-btn">← Back to the castle</a>
+    <div class="bunting" aria-hidden="true"></div>
+    <h2 class="room-title">The Bakery</h2>
+    <p class="room-sub" id="cake-msg">Every candle is a tiny Calcifer. Click each one to blow it out.</p>
+
+    <div class="cake-stage">
+      <div class="cake">
+        <div class="tier tier-top">
+          <div class="candles" id="candles"></div>
+          <div class="drip"></div>
+          <div class="berries"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="tier tier-bottom">
+          <div class="drip"></div>
+          <div class="cake-text">HAPPY BIRTHDAY</div>
+        </div>
+        <div class="plate"></div>
+      </div>
+      <button class="pet-cat" data-cat="blue" data-color="white" style="right:-8%; bottom:0;" aria-label="A cat"></button>
+    </div>
+    <button class="btn" id="relight" hidden>Relight the candles</button>
+  </section>
+
+  <section id="green" class="screen room room-green" hidden>
+    <a href="#home" class="back-btn">← Back to the castle</a>
+    <h2 class="room-title">
+      Falling Stars
+      <button class="pet-cat inline" data-cat="green" data-color="black" aria-label="A cat"></button>
+    </h2>
+    <p class="room-sub">Catch the falling stars. Dodge the gooey blobs.</p>
+
+    <div class="game-hud">
+      <span>Score <b id="g-score">0</b></span>
+      <span>Best <b id="g-best">0</b></span>
+      <span id="g-lives" aria-label="Lives">♥♥♥</span>
+    </div>
+    <div class="game-wrap">
+      <canvas id="game-canvas" aria-label="Star catcher game"></canvas>
+      <div class="game-overlay" id="game-overlay">
+        <p class="game-big" id="game-big">STAR CATCHER</p>
+        <p id="game-info">⭐ = 1 point &nbsp; 🌟 = 3 points<br>Avoid the blobs!</p>
+        <button class="btn" id="game-start">Start</button>
+        <p class="game-controls">← → / A D keys, or drag your mouse / finger</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="red" class="screen room room-red" hidden>
+    <a href="#home" class="back-btn">← Back to the castle</a>
+    <h2 class="room-title">The Royal Seer</h2>
+    <p class="room-sub">Professor Whiskers, court wizard, reads birthday fortunes.</p>
+
+    <div class="seer">
+      <div class="shelf">
+        <span class="potion p1"></span><span class="potion p2"></span>
+        <button class="pet-cat" data-cat="red" data-color="grey" aria-label="A cat"></button>
+        <span class="potion p3"></span>
+      </div>
+      <div class="wizard" data-art="cat-wizard"></div>
+      <div class="crystal" id="crystal"><div class="crystal-glow"></div></div>
+      <div class="table"></div>
+    </div>
+    <div class="fortune-card" id="fortune" aria-live="polite">Ask, and the crystal ball shall answer.</div>
+    <button class="btn" id="ask-fortune">Ask for a fortune</button>
+  </section>
+
+  <section id="black" class="screen room room-black" hidden>
+    <a href="#home" class="back-btn">← Back to the castle</a>
+    <h2 class="room-title">The Secret Door</h2>
+
+    <div class="secret" id="secret-gate">
+      <div class="secret-calcifer" data-art="calcifer"></div>
+      <p class="calc-says" id="calc-says">Only one person can open this door. Answer me this:</p>
+      <form class="secret-form" id="secret-form" autocomplete="off">
+        <label for="secret-answer" id="secret-question"></label>
+        <input id="secret-answer" type="text" spellcheck="false" autocapitalize="off">
+        <button class="btn" type="submit">Open the door</button>
+      </form>
+      <p class="secret-hint" id="secret-hint" hidden></p>
+    </div>
+
+    <article class="letter" id="letter" hidden>
+      <div class="letter-paper" id="letter-body"></div>
+    </article>
+
+    <button class="pet-cat" data-cat="black" data-color="calico" style="left:4%; bottom:16px;" aria-label="A cat"></button>
+  </section>
+
+  <div class="overlay" id="dial-overlay" hidden>
+    <div class="dial-box">
+      <button class="close-btn" data-close aria-label="Close">✕</button>
+      <p class="dial-title">Turn the dial. Pick a door.</p>
+      <div class="dial">
+        <svg viewBox="-110 -110 220 220" aria-label="Door dial">
+          <circle r="104" class="dial-rim"/>
+          <g class="dial-seg seg-blue"  data-door="blue"  role="button" tabindex="0" aria-label="Blue door: the bakery">
+            <path d="M-65.05 -65.05 A92 92 0 0 1 65.05 -65.05 L28.28 -28.28 A40 40 0 0 0 -28.28 -28.28 Z"/>
+            <text x="0" y="-60">Cake</text>
+          </g>
+          <g class="dial-seg seg-green" data-door="green" role="button" tabindex="0" aria-label="Green door: the game">
+            <path d="M65.05 -65.05 A92 92 0 0 1 65.05 65.05 L28.28 28.28 A40 40 0 0 0 28.28 -28.28 Z"/>
+            <text x="64" y="4">Game</text>
+          </g>
+          <g class="dial-seg seg-red"   data-door="red"   role="button" tabindex="0" aria-label="Red door: the fortune teller">
+            <path d="M65.05 65.05 A92 92 0 0 1 -65.05 65.05 L-28.28 28.28 A40 40 0 0 0 28.28 28.28 Z"/>
+            <text x="0" y="68">Fortune</text>
+          </g>
+          <g class="dial-seg seg-black" data-door="black" role="button" tabindex="0" aria-label="Black door: the secret">
+            <path d="M-65.05 65.05 A92 92 0 0 1 -65.05 -65.05 L-28.28 -28.28 A40 40 0 0 0 -28.28 28.28 Z"/>
+            <text x="-64" y="4">???</text>
+          </g>
+          <g class="dial-pointer" id="dial-pointer"><path d="M0 -94 L-9 -108 L9 -108 Z"/></g>
+        </svg>
+        <button class="dial-calcifer" id="dial-calcifer" aria-label="Calcifer. Feed him a log?">
+          <span data-art="calcifer"></span>
+        </button>
+      </div>
+      <p class="dial-note" id="dial-note">Calcifer looks a little hungry…</p>
+    </div>
+  </div>
+
+  <div class="door-transition" id="door-transition" hidden>
+    <div class="door-panel left"></div>
+    <div class="door-panel right"></div>
+  </div>
+
+  <div class="overlay" id="trophy-overlay" hidden>
+    <div class="panel">
+      <button class="close-btn" data-close aria-label="Close">✕</button>
+      <h2>Achievements</h2>
+      <p class="trophy-progress" id="trophy-progress"></p>
+      <ul class="ach-list" id="ach-list"></ul>
+    </div>
+  </div>
+
+  <div class="overlay" id="finale" hidden>
+    <div class="panel finale-panel">
+      <p class="levelup">LEVEL UP!</p>
+      <div class="finale-art" data-art="cat-party"></div>
+      <h2>Happy Birthday<span class="name-slot-2"></span>!</h2>
+      <p>You found every secret in the castle. Here's to another year of adventures. ♥</p>
+      <button class="btn" data-close>Keep exploring</button>
+    </div>
+  </div>
+
+  <div class="hud" id="hud">
+    <button class="hud-btn" id="btn-trophies" aria-label="Achievements">🏆 <span id="trophy-count">0</span></button>
+    <button class="hud-btn" id="btn-sound" aria-label="Toggle sound">🔊</button>
+  </div>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <canvas class="confetti" id="confetti" aria-hidden="true"></canvas>
+
+  <script src="js/config.js"></script>
+  <script src="js/letter-data.js"></script>
+  <script src="js/art.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/rooms.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
