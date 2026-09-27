@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
-  <title>A Moving Castle</title>
+  <title>Dork's Moving Castle</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,7 +44,7 @@
       <p>A castle has wandered by… knock and step inside.</p>
     </header>
 
-    <button class="castle" id="castle" aria-label="Enter the moving castle">
+    <button class="castle" id="castle" aria-label="Enter Dork's Moving Castle">
       <span data-art="castle"></span>
       <span class="castle-hint" aria-hidden="true">click me!</span>
     </button>
@@ -58,6 +58,7 @@
     <div class="bunting" aria-hidden="true"></div>
     <h2 class="room-title">The Bakery</h2>
     <p class="room-sub" id="cake-msg">Every candle is a tiny Calcifer. Click each one to blow it out.</p>
+    <button class="btn btn-song" id="play-song" hidden>🎵 Play the birthday song</button>
 
     <div class="cake-stage">
       <div class="cake">
@@ -136,6 +137,7 @@
     </div>
 
     <article class="letter" id="letter" hidden>
+      <div class="players" id="players"></div>
       <div class="letter-paper" id="letter-body"></div>
     </article>
 

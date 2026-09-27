@@ -114,7 +114,7 @@
   }
 
   const ACHIEVEMENTS = [
-    { id: 'door',     icon: '🚪', name: 'Door Opener',          desc: 'Step inside the moving castle.' },
+    { id: 'door',     icon: '🚪', name: 'Door Opener',          desc: "Step inside Dork's Moving Castle." },
     { id: 'calcifer', icon: '🔥', name: "Calcifer's Friend",    desc: 'Feed Calcifer a log.' },
     { id: 'explorer', icon: '🧭', name: 'World Traveller',      desc: 'Go through all four doors.' },
     { id: 'wish',     icon: '🎂', name: 'Wish Granted',         desc: 'Blow out every candle on the cake.' },
