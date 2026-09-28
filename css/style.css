@@ -56,6 +56,9 @@ h1, h2 { margin: 0; line-height: 1.1; }
 .lock-calcifer.angry { transform: scale(1.45); filter: drop-shadow(0 0 50px rgba(255,60,20,.95)) hue-rotate(-18deg) saturate(1.5); }
 .lock-calcifer.angry .calc-flame { animation: flicker .25s ease-in-out infinite; }
 .lock-inner.awake .zzz { opacity: 0; }
+.lock-calcifer.woken { animation: woken .7s cubic-bezier(.2,1.6,.4,1) forwards; }
+@keyframes woken { 0% { transform: scale(1); } 40% { transform: scale(1.35, 1.2); } 100% { transform: scale(1.2); } }
+.wake-btn { margin-top: 26px; }
 .lock-inner.shaking { animation: shake .45s; }
 #lock .calc-bubble {
   position: absolute; z-index: 2; left: 50%; top: -72px; margin: 0; width: max-content; max-width: min(280px, 80vw);

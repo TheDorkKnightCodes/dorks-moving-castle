@@ -218,6 +218,8 @@
   addEventListener('hashchange', route);
 
   const unlockAt = new Date(CFG.unlockAt).getTime();
+  let opened = false;
+
   function startLock() {
     locked = true;
     show('lock');
@@ -229,9 +231,8 @@
       const ms = unlockAt - Date.now();
       if (ms <= 0) {
         clearInterval(timer);
-        $('#lock').classList.add('waking');
-        Sound.chime();
-        setTimeout(() => { locked = false; route(); Confetti.shower(); }, 1400);
+        opened = true;
+        wakeUp('Happy birthday!! 🎉');
         return;
       }
       const s = Math.floor(ms / 1000);
@@ -244,19 +245,59 @@
     tick();
   }
 
-  const GRUMBLES = [
+  const WELCOMES = [
+    "Oh, it's you! Welcome back! 🎉",
+    'Fine, fine, I\'m up. Come on in!',
+    'Back again? The castle missed you.',
+    'Happy birthday-week! In you go!',
+  ];
+  function startGreeting() {
+    opened = true;
+    locked = true;
+    show('lock');
+    $('.countdown').hidden = true;
+    $('#lock-when').hidden = true;
+    $('#lock-sub').textContent = 'Wake him up to get into the castle.';
+    $('#wake-btn').hidden = false;
+  }
+  $('#wake-btn').addEventListener('click', () => wakeUp(WELCOMES[(Math.random() * WELCOMES.length) | 0]));
+
+  function wakeUp(line) {
+    clearTimeout(napTimer);
+    raging = true;
+    $('#wake-btn').hidden = true;
+    calc.classList.remove('grumpy', 'angry');
+    lockInner.classList.remove('shaking');
+    lockInner.classList.add('awake', 'poked');
+    setMood('awake');
+    calc.classList.add('woken');
+    say(line);
+    $('#lock h1').textContent = 'Calcifer is awake!';
+    $('#lock-sub').textContent = 'The castle is on its way…';
+    Sound.chime();
+    setTimeout(() => {
+      $('#lock').classList.add('waking');
+      setTimeout(() => {
+        locked = false;
+        route();
+        Confetti.shower();
+      }, 1400);
+    }, 1900);
+  }
+
+  const calc = $('#lock-calcifer');
+  const bubble = $('#calc-bubble');
+  const lockInner = $('.lock-inner');
+  let pokes = 0, napTimer = 0, raging = false;
+  const grumbles = () => [
     'Mmph… five more minutes…',
     'Zzz… go away…',
     "Hey! I'm sleeping!",
     'Stop poking me!',
     "I'm a fire demon, you know. Very scary.",
-    "It's not your birthday yet. Shoo!",
+    opened ? "There's a button for waking me, you know." : "It's not your birthday yet. Shoo!",
     'One more poke and I swear…',
   ];
-  const calc = $('#lock-calcifer');
-  const bubble = $('#calc-bubble');
-  const lockInner = $('.lock-inner');
-  let pokes = 0, napTimer = 0, raging = false;
 
   function setMood(mood) { calc.innerHTML = Art.calcifer({ mood }); }
   function say(text) {
@@ -278,6 +319,7 @@
     if (raging) return;
     pokes++;
     lockInner.classList.add('awake', 'poked');
+    const GRUMBLES = grumbles();
     if (pokes % (GRUMBLES.length + 1) === 0) {
       raging = true;
       setMood('angry');
@@ -411,5 +453,6 @@
 
   const now = Date.now();
   if (now < unlockAt && !params.has('preview')) startLock();
-  else route();
+  else if (ROOMS.includes(location.hash.slice(1))) route();
+  else startGreeting();
 })();
