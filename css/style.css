@@ -44,8 +44,29 @@ h1, h2 { margin: 0; line-height: 1.1; }
   color: #f6ead8;
 }
 .lock-inner { position: relative; max-width: 560px; }
-.lock-calcifer { width: 120px; margin: 0 auto 8px; filter: drop-shadow(0 0 30px rgba(255,140,40,.55)); }
+.lock-calcifer {
+  display: block; width: 120px; margin: 0 auto 8px; padding: 0; border: 0; background: none; cursor: pointer;
+  filter: drop-shadow(0 0 30px rgba(255,140,40,.55)); transition: filter .3s, transform .3s; transform-origin: 50% 100%;
+}
+.lock-calcifer svg { display: block; width: 100%; }
+.lock-calcifer:hover { transform: scale(1.04); }
 .lock-calcifer .calc-flame { animation: sleepy-flame 3.2s ease-in-out infinite; transform-origin: 50% 100%; }
+.lock-calcifer.grumpy { animation: grumpy .45s ease-out; }
+@keyframes grumpy { 30% { transform: scale(1.12, .9); } 60% { transform: scale(.95, 1.08); } }
+.lock-calcifer.angry { transform: scale(1.45); filter: drop-shadow(0 0 50px rgba(255,60,20,.95)) hue-rotate(-18deg) saturate(1.5); }
+.lock-calcifer.angry .calc-flame { animation: flicker .25s ease-in-out infinite; }
+.lock-inner.awake .zzz { opacity: 0; }
+.lock-inner.shaking { animation: shake .45s; }
+#lock .calc-bubble {
+  position: absolute; z-index: 2; left: 50%; top: -72px; margin: 0; width: max-content; max-width: min(280px, 80vw);
+  padding: 8px 14px; border-radius: 16px; background: #f6ead8; color: var(--ink); font-weight: 600; font-size: 1rem;
+  opacity: 0; transform: translate(-50%, 6px); transition: opacity .2s, transform .2s; pointer-events: none;
+}
+#lock .calc-bubble::after { content: ''; position: absolute; left: 50%; bottom: -8px; margin-left: -8px; border: 8px solid transparent; border-top-color: #f6ead8; border-bottom: 0; }
+#lock .calc-bubble.show { opacity: 1; transform: translate(-50%, 0); }
+#lock .poke-hint { font-size: .85rem; opacity: 0; color: #cbb7e8; font-style: italic; animation: poke-hint-in .8s 5s forwards; }
+@keyframes poke-hint-in { to { opacity: .7; } }
+#lock .lock-inner.poked .poke-hint { visibility: hidden; }
 @keyframes sleepy-flame { 50% { transform: scale(.9, .82); } }
 .zzz { position: absolute; top: 0; left: calc(50% + 50px); font-weight: 700; color: #cbb7e8; }
 .zzz span { position: absolute; opacity: 0; animation: zzz 3s infinite; }

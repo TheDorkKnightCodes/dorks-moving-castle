@@ -1,18 +1,40 @@
 window.Art = (() => {
   const INK = '#2e2a33';
 
-  function calcifer({ sleeping = false } = {}) {
-    const eyes = sleeping
-      ? `<path d="M33 74 Q40 80 47 74 M53 74 Q60 80 67 74" stroke="${INK}" stroke-width="3.5" fill="none" stroke-linecap="round"/>`
-      : `<g class="calc-eyes">
+  const FACES = {
+    awake: {
+      eyes: `<g class="calc-eyes">
            <ellipse cx="40" cy="72" rx="8" ry="10" fill="#fff"/>
            <ellipse cx="60" cy="72" rx="8" ry="10" fill="#fff"/>
            <circle class="pupil" cx="41" cy="74" r="4.2" fill="${INK}"/>
            <circle class="pupil" cx="61" cy="74" r="4.2" fill="${INK}"/>
-         </g>`;
-    const mouth = sleeping
-      ? `<ellipse cx="50" cy="94" rx="3.5" ry="2.5" fill="#8a2f10"/>`
-      : `<path d="M39 89 Q50 101 61 89 Q50 95 39 89 Z" fill="#8a2f10"/>`;
+         </g>`,
+      mouth: `<path d="M39 89 Q50 101 61 89 Q50 95 39 89 Z" fill="#8a2f10"/>`,
+    },
+    sleeping: {
+      eyes: `<path d="M33 74 Q40 80 47 74 M53 74 Q60 80 67 74" stroke="${INK}" stroke-width="3.5" fill="none" stroke-linecap="round"/>`,
+      mouth: `<ellipse cx="50" cy="94" rx="3.5" ry="2.5" fill="#8a2f10"/>`,
+    },
+    grumpy: {
+      eyes: `<path d="M33 75 Q40 79 47 75" stroke="${INK}" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+           <path d="M52 73 Q60 67 68 73 Q60 80 52 73 Z" fill="#fff"/>
+           <circle cx="60" cy="74" r="3.4" fill="${INK}"/>
+           <path d="M51 72 L69 70" stroke="${INK}" stroke-width="3" stroke-linecap="round"/>`,
+      mouth: `<path d="M42 96 Q50 90 58 96" stroke="#8a2f10" stroke-width="3.5" fill="none" stroke-linecap="round"/>`,
+    },
+    angry: {
+      eyes: `<ellipse cx="40" cy="74" rx="8" ry="8" fill="#fff"/>
+           <ellipse cx="60" cy="74" rx="8" ry="8" fill="#fff"/>
+           <circle cx="42" cy="76" r="3.4" fill="${INK}"/>
+           <circle cx="58" cy="76" r="3.4" fill="${INK}"/>
+           <path d="M29 62 L48 69 M71 62 L52 69" stroke="${INK}" stroke-width="4" stroke-linecap="round"/>`,
+      mouth: `<path d="M37 91 Q50 83 63 91 Q50 107 37 91 Z" fill="#8a2f10"/>
+           <path d="M42 90 L45 94 L48 89 L51 94 L54 89 L57 94 L59 90" fill="#fff"/>`,
+    },
+  };
+
+  function calcifer({ sleeping = false, mood = sleeping ? 'sleeping' : 'awake' } = {}) {
+    const { eyes, mouth } = FACES[mood] || FACES.awake;
     return `<svg viewBox="0 0 100 120" class="calcifer-svg" aria-hidden="true">
       <g class="calc-flame">
         <path d="M50 4 C56 22 72 26 76 44 C80 36 78 28 76 22 C92 36 96 60 92 78 C88 102 70 116 50 116 C30 116 12 102 8 78 C4 60 8 40 22 28 C22 38 24 44 28 48 C30 30 44 22 50 4 Z" fill="#ff6f1a"/>

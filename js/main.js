@@ -57,6 +57,7 @@
       crackle() { for (let i = 0; i < 7; i++) setTimeout(() => noise(0.05, 0.15, 1800 + Math.random() * 2500), i * 55); },
       click() { tone(660, 0, 0.06, 'triangle', 0.06); },
       chime() { [784, 988, 1175, 1568].forEach((f, i) => tone(f, i * 0.13, 0.6, 'sine', 0.07)); },
+      grumble() { tone(140, 0, 0.18, 'sawtooth', 0.05); tone(110, 0.12, 0.25, 'sawtooth', 0.05); },
       wrong() { tone(233, 0, 0.14, 'square', 0.04); tone(185, 0.13, 0.22, 'square', 0.04); },
       door() { noise(0.5, 0.12, 300); tone(392, 0.1, 0.5, 'sine', 0.05); },
     };
@@ -123,7 +124,8 @@
     { id: 'fortune',  icon: '🔮', name: 'Fortune Favours You',  desc: 'Hear 5 fortunes from Professor Whiskers.' },
     { id: 'cats',     icon: '🐈', name: 'Crazy Cat Person',     desc: () => `Pet all 5 hidden cats. (${state.cats.length}/5 found)` },
     { id: 'letter',   icon: '💌', name: 'The Secret Door',      desc: 'Open the black door.' },
-    { id: 'konami',   icon: '🕹️', name: 'Old School',           desc: 'Enter a legendary code.', secret: true, hint: 'Some codes are older than the castle. ↑↑…' },
+    { id: 'poke',     icon: '😤', name: 'Poked the Bear',       desc: 'Woke Calcifer up one too many times.', secret: true, hint: 'Someone was sleeping before the big day…' },
+    { id: 'konami',  icon: '🕹️', name: 'Old School',           desc: 'Enter a legendary code.', secret: true, hint: 'Some codes are older than the castle. ↑↑…' },
     { id: 'complete', icon: '🎉', name: 'Level Up!',            desc: 'Find everything else. (Secrets optional.)', final: true },
   ];
   const text = v => (typeof v === 'function' ? v() : v);
@@ -241,6 +243,58 @@
     const timer = setInterval(tick, 1000);
     tick();
   }
+
+  const GRUMBLES = [
+    'Mmph… five more minutes…',
+    'Zzz… go away…',
+    "Hey! I'm sleeping!",
+    'Stop poking me!',
+    "I'm a fire demon, you know. Very scary.",
+    "It's not your birthday yet. Shoo!",
+    'One more poke and I swear…',
+  ];
+  const calc = $('#lock-calcifer');
+  const bubble = $('#calc-bubble');
+  const lockInner = $('.lock-inner');
+  let pokes = 0, napTimer = 0, raging = false;
+
+  function setMood(mood) { calc.innerHTML = Art.calcifer({ mood }); }
+  function say(text) {
+    bubble.textContent = text;
+    bubble.classList.remove('show'); void bubble.offsetWidth; bubble.classList.add('show');
+  }
+  function backToSleep(delay) {
+    clearTimeout(napTimer);
+    napTimer = setTimeout(() => {
+      raging = false;
+      setMood('sleeping');
+      calc.classList.remove('grumpy', 'angry');
+      lockInner.classList.remove('awake', 'shaking');
+      bubble.classList.remove('show');
+    }, delay);
+  }
+
+  calc.addEventListener('click', () => {
+    if (raging) return;
+    pokes++;
+    lockInner.classList.add('awake', 'poked');
+    if (pokes % (GRUMBLES.length + 1) === 0) {
+      raging = true;
+      setMood('angry');
+      calc.classList.remove('grumpy'); calc.classList.add('angry');
+      lockInner.classList.remove('shaking'); void lockInner.offsetWidth; lockInner.classList.add('shaking');
+      say('RAAAH! LET ME SLEEP!!');
+      Sound.crackle(); Sound.hit();
+      unlock('poke');
+      backToSleep(2600);
+      return;
+    }
+    setMood('grumpy');
+    calc.classList.remove('grumpy'); void calc.offsetWidth; calc.classList.add('grumpy');
+    say(GRUMBLES[(pokes - 1) % (GRUMBLES.length + 1)]);
+    Sound.grumble();
+    backToSleep(1800);
+  });
 
   const castleBtn = $('#castle');
   castleBtn.addEventListener('click', () => {
