@@ -154,7 +154,7 @@
   }
   addEventListener('screenchange', () => Object.values(tracks).forEach(a => a.pause()));
 
-  const PLAYERS = [['voice', '🎙️ Hear me read it'], ['song', '🎂 Hear me sing']];
+  const PLAYERS = [['voice', '🎙️ Let me read it out for you'], ['song', '🎂 Hear me sing']];
   const fmt = s => (isFinite(s) ? `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}` : '');
 
   function buildPlayers() {
